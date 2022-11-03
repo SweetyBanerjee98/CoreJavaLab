@@ -1,0 +1,397 @@
+/*Author :Sweety Banerjee 
+Date :- 03/11/2022
+*/
+
+
+Q3.Create a data base companyABC
+1. create 3 tables :
+emp(eno,ename,salary,designation,pno,dno)
+project(pno, pname, budget,dno)
+dept(dno,dname,location)
+
+Create the following Queries:
+1. Insert 10 employees, 5 projects and 3 dept
+2. Show all the employee with manager role and location Mumbai
+3.Update salary by 10% where budget>20000
+4. Add a new column in project : hours nedded
+5. Alter the name of pname to projectName
+6.Show all the employee working for java web project in New Delhi
+7. Show all the project with descreasing budget
+8. Show all project with increasing project where location  is chennai
+9Show all the employees working in dname: Developer with designation Senior Developer
+10. Count the number of Java projects in Chennai.
+11. Calculate the total salary and total expenditure of project in various department
+12. update the project budget by 5% for all projects of New Delhi
+13. Show all the employees working in Chennai where project starts with Java.
+
+Designation: Manager. Developer, SeniorDeveloper, Tester, QualityAnalyst
+Pname: Java Desktop, Java Web, PHP, Python, AWS
+Budget: 10,000- 50,000
+Location: New Delhi, Mumbai, Chennai
+
+
+<<-------------------------------------------------------- ANSWER--------------------------------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 31
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database companyABC;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> use companyABC;
+Database changed
+mysql> create table dept
+    -> dNo int primary key,
+    -> dName varchar (35) not NULL,
+    -> location varchar(50) not NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dNo int primary key,
+dName varchar (35) not NULL,
+location varchar(50) not NULL' at line 2
+mysql> create table dept (
+    -> dNo int Primary Key ,
+    -> dName varchar (35) not NULL,
+    -> location varchar (50) not NULL);
+Query OK, 0 rows affected (0.66 sec)
+
+mysql> describe dept;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| dNo      | int         | NO   | PRI | NULL    |       |
+| dName    | varchar(35) | NO   |     | NULL    |       |
+| location | varchar(50) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.09 sec)
+
+mysql> create table project (
+    -> pNo int primary Key ,
+    -> pName varchar (30) not NULL ,
+    -> budget float (10,2),
+    -> departmentNo int,
+    -> foreign key (departmentNo) references dept (dNo));
+Query OK, 0 rows affected, 1 warning (0.22 sec)
+
+mysql> describe project;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| pNo          | int         | NO   | PRI | NULL    |       |
+| pName        | varchar(30) | NO   |     | NULL    |       |
+| budget       | float(10,2) | YES  |     | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table emp(
+    -> eNo int primary Key,
+    -> eName varchar(20) not NULL,
+    -> salary float (10,2),
+    -> designation varchar (30) not NULL,
+    -> projectNo int,
+    -> foreign key (projectNo) references project (pNo),
+    -> departmentNo int,
+    -> foreign key (departmentNo) references dept (dNo));
+Query OK, 0 rows affected, 1 warning (0.83 sec)
+
+mysql> describe emp;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| eNo          | int         | NO   | PRI | NULL    |       |
+| eName        | varchar(20) | NO   |     | NULL    |       |
+| salary       | float(10,2) | YES  |     | NULL    |       |
+| designation  | varchar(30) | NO   |     | NULL    |       |
+| projectNo    | int         | YES  | MUL | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into dept values (101, "Training", "New Delhi");
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert Into dept Values (102, "IT", "Mumbai"
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> );
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into dept Values (103, "R & D" , "Chennai");
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from dept;
++-----+----------+-----------+
+| dNo | dName    | location  |
++-----+----------+-----------+
+| 101 | Training | New Delhi |
+| 102 | IT       | Mumbai    |
+| 103 | R & D    | Chennai   |
++-----+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> describe project;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| pNo          | int         | NO   | PRI | NULL    |       |
+| pName        | varchar(30) | NO   |     | NULL    |       |
+| budget       | float(10,2) | YES  |     | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> insert into Project values (011, "Java Desktop",  25000.56, 102);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into Project Values ( 012, " Java Web", 15000.43, 103);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into project Values (013, "PHP" , 30000.89, 103);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into project values (014, "Python ", 40000.67, 102);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into project values (015, " AWS ",
+    ->
+    -> 50000.00, 101);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> Select * from Project;
++-----+--------------+----------+--------------+
+| pNo | pName        | budget   | departmentNo |
++-----+--------------+----------+--------------+
+|  11 | Java Desktop | 25000.56 |          102 |
+|  12 |  Java Web    | 15000.43 |          103 |
+|  13 | PHP          | 30000.89 |          103 |
+|  14 | Python       | 40000.67 |          102 |
+|  15 |  AWS         | 50000.00 |          101 |
++-----+--------------+----------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> describe emp;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| eNo          | int         | NO   | PRI | NULL    |       |
+| eName        | varchar(20) | NO   |     | NULL    |       |
+| salary       | float(10,2) | YES  |     | NULL    |       |
+| designation  | varchar(30) | NO   |     | NULL    |       |
+| projectNo    | int         | YES  | MUL | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> insert into emp values ( 01, "Sweety Banerjee" , 60000, "Manager", 013, 101);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into emp values ( 02, " Rakesh Banerjee", 36000, "Developer", 011, 102);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into emp values ( 03, " Priya Halder", 67000, " Senior Developer", 012, 013);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`companyabc`.`emp`, CONSTRAINT `emp_ibfk_2` FOREIGN KEY (`departmentNo`) REFERENCES `dept` (`dNo`))
+mysql> insert into emp values ( 03, "Priya Halder" , 67000, " Senior Developer" , 012, 103);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into emp values (04, "Rima Adhikary", 45000, "Tester", 014, 101);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into emp values ( 05, "Chiranjeev Halder ", 50000, "Quality Analyst ", 015, 102);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into emp values (06 , "Souvik Das", 30000, "Tester", 014, 103);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into emp values (07, "Mitul Mistry", 43000, "Developer", 013, 101);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into emp values ( 08 , "Mukesh Roy", 89000, " Quality Analyst", 015, 102);
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into emp values (09 , " Somnath Hazra ", 49000, " Manager", 011, 103);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into emp values (010, " Sweta Das" , 77000, Quality Analyst", 012, 102);
+    "> ;
+    "> ;;
+    "> ";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Analyst", 012, 102);
+;
+;;
+"' at line 1
+mysql> insert into emp values( 010, "Sweta Das ", 77000, "Quality Analyst", 012, 102);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from emp;
++-----+--------------------+----------+-------------------+-----------+--------------+
+| eNo | eName              | salary   | designation       | projectNo | departmentNo |
++-----+--------------------+----------+-------------------+-----------+--------------+
+|   1 | Sweety Banerjee    | 60000.00 | Manager           |        13 |          101 |
+|   2 |  Rakesh Banerjee   | 36000.00 | Developer         |        11 |          102 |
+|   3 | Priya Halder       | 67000.00 |  Senior Developer |        12 |          103 |
+|   4 | Rima Adhikary      | 45000.00 | Tester            |        14 |          101 |
+|   5 | Chiranjeev Halder  | 50000.00 | Quality Analyst   |        15 |          102 |
+|   6 | Souvik Das         | 30000.00 | Tester            |        14 |          103 |
+|   7 | Mitul Mistry       | 43000.00 | Developer         |        13 |          101 |
+|   8 | Mukesh Roy         | 89000.00 |  Quality Analyst  |        15 |          102 |
+|   9 |  Somnath Hazra     | 49000.00 |  Manager          |        11 |          103 |
+|  10 | Sweta Das          | 77000.00 | Quality Analyst   |        12 |          102 |
++-----+--------------------+----------+-------------------+-----------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select eName, Designation , Location
+    -> from emp, dept
+    -> where Designation="Manager" AND Location = "Mumbai";
++-----------------+-------------+----------+
+| eName           | Designation | Location |
++-----------------+-------------+----------+
+| Sweety Banerjee | Manager     | Mumbai   |
++-----------------+-------------+----------+
+1 row in set (0.05 sec)
+
+mysql> alter table Project
+    -> add Column hours_needed varchar(30) not NULL;
+Query OK, 0 rows affected (0.73 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from Project;
++-----+--------------+----------+--------------+--------------+
+| pNo | pName        | budget   | departmentNo | hours_needed |
++-----+--------------+----------+--------------+--------------+
+|  11 | Java Desktop | 25000.56 |          102 |              |
+|  12 |  Java Web    | 15000.43 |          103 |              |
+|  13 | PHP          | 30000.89 |          103 |              |
+|  14 | Python       | 40000.67 |          102 |              |
+|  15 |  AWS         | 50000.00 |          101 |              |
++-----+--------------+----------+--------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> Update emp, Project set salary= salary+(salary*10/100)  Where budget > 20000;
+Query OK, 10 rows affected (0.21 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+mysql> SELECT * FROM emp;
++-----+--------------------+----------+-------------------+-----------+--------------+
+| eNo | eName              | salary   | designation       | projectNo | departmentNo |
++-----+--------------------+----------+-------------------+-----------+--------------+
+|   1 | Sweety Banerjee    | 66000.00 | Manager           |        13 |          101 |
+|   2 |  Rakesh Banerjee   | 39600.00 | Developer         |        11 |          102 |
+|   3 | Priya Halder       | 73700.00 |  Senior Developer |        12 |          103 |
+|   4 | Rima Adhikary      | 49500.00 | Tester            |        14 |          101 |
+|   5 | Chiranjeev Halder  | 55000.00 | Quality Analyst   |        15 |          102 |
+|   6 | Souvik Das         | 33000.00 | Tester            |        14 |          103 |
+|   7 | Mitul Mistry       | 47300.00 | Developer         |        13 |          101 |
+|   8 | Mukesh Roy         | 97900.00 |  Quality Analyst  |        15 |          102 |
+|   9 |  Somnath Hazra     | 53900.00 |  Manager          |        11 |          103 |
+|  10 | Sweta Das          | 84700.00 | Quality Analyst   |        12 |          102 |
++-----+--------------------+----------+-------------------+-----------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> alter table Project
+    -> Change pName projectName varchar (40);
+Query OK, 0 rows affected (1.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM project;
++-----+--------------+----------+--------------+--------------+
+| pNo | projectName  | budget   | departmentNo | hours_needed |
++-----+--------------+----------+--------------+--------------+
+|  11 | Java Desktop | 25000.56 |          102 |              |
+|  12 |  Java Web    | 15000.43 |          103 |              |
+|  13 | PHP          | 30000.89 |          103 |              |
+|  14 | Python       | 40000.67 |          102 |              |
+|  15 |  AWS         | 50000.00 |          101 |              |
++-----+--------------+----------+--------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select
+    -> e.eNo, e.eName, e.salary, e.Designation, p.pName, p.Budget, d.dName, d.Location
+    -> from emp e
+    -> join project p
+    -> on e.pNo = p.pNo
+    -> join dept d
+    -> on e.dNo=d.dNo;
+ERROR 1054 (42S22): Unknown column 'p.pName' in 'field list'
+mysql> desc Project;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| pNo          | int         | NO   | PRI | NULL    |       |
+| projectName  | varchar(40) | YES  |     | NULL    |       |
+| budget       | float(10,2) | YES  |     | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
+| hours_needed | varchar(30) | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.07 sec)
+
+mysql> alter table project
+    -> add column ProjectHours time;
+Query OK, 0 rows affected (0.22 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| pNo          | int         | NO   | PRI | NULL    |       |
+| projectName  | varchar(40) | YES  |     | NULL    |       |
+| budget       | float(10,2) | YES  |     | NULL    |       |
+| departmentNo | int         | YES  | MUL | NULL    |       |
+| hours_needed | varchar(30) | NO   |     | NULL    |       |
+| ProjectHours | time        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * From project
+    -> order by budget desc;
++-----+--------------+----------+--------------+--------------+--------------+
+| pNo | projectName  | budget   | departmentNo | hours_needed | ProjectHours |
++-----+--------------+----------+--------------+--------------+--------------+
+|  15 |  AWS         | 50000.00 |          101 |              | NULL         |
+|  14 | Python       | 40000.67 |          102 |              | NULL         |
+|  13 | PHP          | 30000.89 |          103 |              | NULL         |
+|  11 | Java Desktop | 25000.56 |          102 |              | NULL         |
+|  12 |  Java Web    | 15000.43 |          103 |              | NULL         |
++-----+--------------+----------+--------------+--------------+--------------+
+5 rows in set (0.03 sec)
+
+mysql> select count(*)
+    -> from Project
+    -> where projectName like "J%";
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.11 sec)
+
+mysql> select p.projectName , p.budget, d.dName, d.Location
+    -> from project p
+    -> join dept d
+    -> where d.Location = "Chennai"
+    -> order BY p.budget asc;
++--------------+----------+-------+----------+
+| projectName  | budget   | dName | Location |
++--------------+----------+-------+----------+
+|  Java Web    | 15000.43 | R & D | Chennai  |
+| Java Desktop | 25000.56 | R & D | Chennai  |
+| PHP          | 30000.89 | R & D | Chennai  |
+| Python       | 40000.67 | R & D | Chennai  |
+|  AWS         | 50000.00 | R & D | Chennai  |
++--------------+----------+-------+----------+
+5 rows in set (0.00 sec)
+
+mysql>
