@@ -1,0 +1,226 @@
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@Author :- Sweety Banerjee
+#Date :- 10/11/2022
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        ANSWER
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 36
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database StudentSystem;
+Query OK, 1 row affected (0.14 sec)
+
+mysql> use StudentSystem;
+Database changed
+mysql> create table Employee(
+    -> emp_id int primary key not null,
+    -> emp_name varchar(35) not null,
+    -> emp_address varchar(40) not null,
+    -> emp_project varchar(25) not null);
+Query OK, 0 rows affected (0.72 sec)
+
+mysql> desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| emp_id      | int         | NO   | PRI | NULL    |       |
+| emp_name    | varchar(35) | NO   |     | NULL    |       |
+| emp_address | varchar(40) | NO   |     | NULL    |       |
+| emp_project | varchar(25) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.15 sec)
+
+mysql> insert into Employee values(001,"Sweety Banerjee","Kolkata","SQL");
+Query OK, 1 row affected (0.21 sec)
+
+mysql> insert into Employee values(002,"Juhi Mukherjee","London","JAVA");
+Query OK, 1 row affected (0.18 sec)
+
+mysql> insert into Employee values(003,"Rahul Roy","New Delhi","NodeJs");
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Employee values(004,"Piya Sen","Mumbai","AI");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from Employee;
++--------+-----------------+-------------+-------------+
+| emp_id | emp_name        | emp_address | emp_project |
++--------+-----------------+-------------+-------------+
+|      1 | Sweety Banerjee | Kolkata     | SQL         |
+|      2 | Juhi Mukherjee  | London      | JAVA        |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |
+|      4 | Piya Sen        | Mumbai      | AI          |
++--------+-----------------+-------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> create table StudentDetail(
+    -> s_id int primary key not null,
+    -> s_name varchar(30) not null,
+    -> s_dept varchar(25) not null);
+Query OK, 0 rows affected (0.45 sec)
+
+mysql> desc StudentDetail;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| s_id   | int         | NO   | PRI | NULL    |       |
+| s_name | varchar(30) | NO   |     | NULL    |       |
+| s_dept | varchar(25) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into StudentDetail values(001,"Soumen Roy","Science");
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into StudentDetail values(002,"Soma Das","Commerce");
+Query OK, 1 row affected (0.17 sec)
+
+mysql> insert into StudentDetail values(003,"Debjyoti Dey","Arts");
+Query OK, 1 row affected (0.64 sec)
+
+mysql> insert into StudentDetail values(004,"Swati Shaw","Commerce");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select * from StudentDetail;
++------+--------------+----------+
+| s_id | s_name       | s_dept   |
++------+--------------+----------+
+|    1 | Soumen Roy   | Science  |
+|    2 | Soma Das     | Commerce |
+|    3 | Debjyoti Dey | Arts     |
+|    4 | Swati Shaw   | Commerce |
++------+--------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Employee;
++--------+-----------------+-------------+-------------+
+| emp_id | emp_name        | emp_address | emp_project |
++--------+-----------------+-------------+-------------+
+|      1 | Sweety Banerjee | Kolkata     | SQL         |
+|      2 | Juhi Mukherjee  | London      | JAVA        |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |
+|      4 | Piya Sen        | Mumbai      | AI          |
++--------+-----------------+-------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select Employee.emp_name,Employee.emp_id,StudentDetail.s_name,StudentDetail.s_dept
+    -> from Employee
+    -> INNER JOIN StudentDetail
+    -> ON Employee.emp_id = StudentDetail.s_id;
++-----------------+--------+--------------+----------+
+| emp_name        | emp_id | s_name       | s_dept   |
++-----------------+--------+--------------+----------+
+| Sweety Banerjee |      1 | Soumen Roy   | Science  |
+| Juhi Mukherjee  |      2 | Soma Das     | Commerce |
+| Rahul Roy       |      3 | Debjyoti Dey | Arts     |
+| Piya Sen        |      4 | Swati Shaw   | Commerce |
++-----------------+--------+--------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Employee.emp_name,Employee.emp_id,StudentDetail.s_name,StudentDetail.s_dept
+    -> from Employee
+    -> LEFT JOIN StudentDetail
+    -> ON Employee.emp_id = StudentDetail.st_id;
+ERROR 1054 (42S22): Unknown column 'StudentDetail.st_id' in 'on clause'
+mysql> select Employee.emp_name,Employee.emp_id,StudentDetail.s_name,StudentDetail.s_dept
+    -> from Employee
+    -> LEFT JOIN StudentDetail
+    -> ON Employee.emp_id = StudentDetail.s_id;
++-----------------+--------+--------------+----------+
+| emp_name        | emp_id | s_name       | s_dept   |
++-----------------+--------+--------------+----------+
+| Sweety Banerjee |      1 | Soumen Roy   | Science  |
+| Juhi Mukherjee  |      2 | Soma Das     | Commerce |
+| Rahul Roy       |      3 | Debjyoti Dey | Arts     |
+| Piya Sen        |      4 | Swati Shaw   | Commerce |
++-----------------+--------+--------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Employee.emp_name,Employee.emp_id,StudentDetail.s_name,StudentDetail.s_dept
+    -> from Employee
+    -> RIGHT JOIN StudentDetail
+    -> ON Employee.emp_id = StudentDetail.s_id;
++-----------------+--------+--------------+----------+
+| emp_name        | emp_id | s_name       | s_dept   |
++-----------------+--------+--------------+----------+
+| Sweety Banerjee |      1 | Soumen Roy   | Science  |
+| Juhi Mukherjee  |      2 | Soma Das     | Commerce |
+| Rahul Roy       |      3 | Debjyoti Dey | Arts     |
+| Piya Sen        |      4 | Swati Shaw   | Commerce |
++-----------------+--------+--------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select Employee.emp_name,StudentDetail.s_dept
+    -> from Employee
+    -> RIGHT JOIN StudentDetail
+    -> ON Employee.emp_id = StudentDetail.s_id;
++-----------------+----------+
+| emp_name        | s_dept   |
++-----------------+----------+
+| Sweety Banerjee | Science  |
+| Juhi Mukherjee  | Commerce |
+| Rahul Roy       | Arts     |
+| Piya Sen        | Commerce |
++-----------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Employee full join StudentDetail;
++--------+-----------------+-------------+-------------+------+--------------+----------+
+| emp_id | emp_name        | emp_address | emp_project | s_id | s_name       | s_dept   |
++--------+-----------------+-------------+-------------+------+--------------+----------+
+|      4 | Piya Sen        | Mumbai      | AI          |    1 | Soumen Roy   | Science  |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    1 | Soumen Roy   | Science  |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    1 | Soumen Roy   | Science  |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    1 | Soumen Roy   | Science  |
+|      4 | Piya Sen        | Mumbai      | AI          |    2 | Soma Das     | Commerce |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    2 | Soma Das     | Commerce |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    2 | Soma Das     | Commerce |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    2 | Soma Das     | Commerce |
+|      4 | Piya Sen        | Mumbai      | AI          |    3 | Debjyoti Dey | Arts     |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    3 | Debjyoti Dey | Arts     |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    3 | Debjyoti Dey | Arts     |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    3 | Debjyoti Dey | Arts     |
+|      4 | Piya Sen        | Mumbai      | AI          |    4 | Swati Shaw   | Commerce |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    4 | Swati Shaw   | Commerce |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    4 | Swati Shaw   | Commerce |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    4 | Swati Shaw   | Commerce |
++--------+-----------------+-------------+-------------+------+--------------+----------+
+16 rows in set (0.00 sec)
+
+mysql> select * from Employee cross join StudentDetail;
++--------+-----------------+-------------+-------------+------+--------------+----------+
+| emp_id | emp_name        | emp_address | emp_project | s_id | s_name       | s_dept   |
++--------+-----------------+-------------+-------------+------+--------------+----------+
+|      4 | Piya Sen        | Mumbai      | AI          |    1 | Soumen Roy   | Science  |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    1 | Soumen Roy   | Science  |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    1 | Soumen Roy   | Science  |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    1 | Soumen Roy   | Science  |
+|      4 | Piya Sen        | Mumbai      | AI          |    2 | Soma Das     | Commerce |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    2 | Soma Das     | Commerce |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    2 | Soma Das     | Commerce |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    2 | Soma Das     | Commerce |
+|      4 | Piya Sen        | Mumbai      | AI          |    3 | Debjyoti Dey | Arts     |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    3 | Debjyoti Dey | Arts     |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    3 | Debjyoti Dey | Arts     |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    3 | Debjyoti Dey | Arts     |
+|      4 | Piya Sen        | Mumbai      | AI          |    4 | Swati Shaw   | Commerce |
+|      3 | Rahul Roy       | New Delhi   | NodeJs      |    4 | Swati Shaw   | Commerce |
+|      2 | Juhi Mukherjee  | London      | JAVA        |    4 | Swati Shaw   | Commerce |
+|      1 | Sweety Banerjee | Kolkata     | SQL         |    4 | Swati Shaw   | Commerce |
++--------+-----------------+-------------+-------------+------+--------------+----------+
+16 rows in set (0.00 sec)
+
+mysql>
